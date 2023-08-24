@@ -1,0 +1,58 @@
+###Create a new user
+POST http://localhost:3003/users/signup
+Content-Type: application/json
+
+{
+    "name": "joão",
+    "email":"joao@email.com",
+    "password":"12345678"
+}
+
+
+###Get All Users
+GET http://localhost:3003/users
+
+###User login
+POST http://localhost:3003/users/login
+Content-Type: application/json
+
+{
+    "email":"ruan@email.com",
+    "password":"12345678"
+}
+
+###Edit user By email
+PUT http://localhost:3003/users/teste2@gmail.com
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5Mzc0MTAzLTExZjgtNDFiZi04MDVmLTkzNDQyZDM3OWE1OCIsIm5hbWUiOiJ0ZXN0ZSIsInJvbGUiOiJOT1JNQUwiLCJpYXQiOjE2OTI4NzYzNTQsImV4cCI6MTY5MzQ4MTE1NH0.zXdFceLTG9ssoSyWEMNwHF9v7u7W4Ba1ickE1u757_w
+
+{
+    "password": "123456789"
+}
+
+###Create a new post
+POST http://localhost:3003/posts
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InUwMDEiLCJuYW1lIjoicnVhbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5MjgzNTU5OSwiZXhwIjoxNjkzNDQwMzk5fQ.oifd6m3IahHAo3WHXZaHuSvis-_PN5MnAVWGo5_lFX4
+
+{
+    "content": "Partiu happy hour! Ruan"
+}
+
+###Get All posts
+GET http://localhost:3003/posts
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InUwMDEiLCJuYW1lIjoicnVhbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5MjgzNjMwOCwiZXhwIjoxNjkzNDQxMTA4fQ.rL_kv188G5ObC97vargi_7HKABHnSR5cxYwWzn8DUwo
+
+
+###Edit a post
+PUT http://localhost:3003/posts/b797c2c0-0640-45b1-bbf5-95ef2a01df81
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InUwMDEiLCJuYW1lIjoicnVhbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5MjkxMTUzMiwiZXhwIjoxNjkzNTE2MzMyfQ.VRNTJEy9uDAT6Nhth_QYzNWulMYwnP5242ytZuYMQ40
+
+{
+    "content": "Partiu happy hour lá no point de sempre! João"
+}
+
+###Delete a post
+DELETE  http://localhost:3003/posts/b797c2c0-0640-45b1-bbf5-95ef2a01df81
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InUwMDEiLCJuYW1lIjoicnVhbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5MjgyMTkyMywiZXhwIjoxNjkzNDI2NzIzfQ.lj3YC6d1hRPiFCgeDevBz9BTI-2cdydbOTrwg6qpB44
