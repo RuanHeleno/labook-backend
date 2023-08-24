@@ -278,7 +278,6 @@ A API to my portfolio made based on a Social Media backend. See more below :)
 ---
 
 
-
 ## :newspaper: Process
 
 ### Built with
@@ -286,6 +285,7 @@ A API to my portfolio made based on a Social Media backend. See more below :)
 - [Typescript](https://www.typescriptlang.org)
 - [SQLite](https://www.sqlite.org/index.html)
 - [Knex](https://knexjs.org)
+- [Zod](https://zod.dev/)
 
 ### :man: Author
 
