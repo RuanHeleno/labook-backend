@@ -33,10 +33,10 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5Mzc0MTAzLTExZjgt
 ###Create a new post
 POST http://localhost:3003/posts
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InUwMDEiLCJuYW1lIjoicnVhbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5MjgzNTU5OSwiZXhwIjoxNjkzNDQwMzk5fQ.oifd6m3IahHAo3WHXZaHuSvis-_PN5MnAVWGo5_lFX4
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNmODk2ZTVhLWExNTQtNGVlZS05YmZkLTdjZmU1MGM4MWI1ZiIsIm5hbWUiOiJqb8OjbyIsInJvbGUiOiJOT1JNQUwiLCJpYXQiOjE2OTI5MjEyMTEsImV4cCI6MTY5MzUyNjAxMX0.TKfOgUyJcoczT9SzXHrR8ChouvjEfoJ36AB1o4pRRi0
 
 {
-    "content": "Partiu happy hour! Ruan"
+    "content": "Partiu happy hour! João2"
 }
 
 ###Get All posts
@@ -53,6 +53,16 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InUwMDEiLCJuYW1lIjoi
     "content": "Partiu happy hour lá no point de sempre! João"
 }
 
+###Edit a like Dislikes
+PUT http://localhost:3003/posts/b797c2c0-0640-45b1-bbf5-95ef2a01df81/like
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InUwMDEiLCJuYW1lIjoicnVhbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5MjkxMTUzMiwiZXhwIjoxNjkzNTE2MzMyfQ.VRNTJEy9uDAT6Nhth_QYzNWulMYwnP5242ytZuYMQ40
+
+{
+    "content": "Partiu happy hour lá no point de sempre! João"
+}
+
+
 ###Delete a post
-DELETE  http://localhost:3003/posts/b797c2c0-0640-45b1-bbf5-95ef2a01df81
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InUwMDEiLCJuYW1lIjoicnVhbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5MjgyMTkyMywiZXhwIjoxNjkzNDI2NzIzfQ.lj3YC6d1hRPiFCgeDevBz9BTI-2cdydbOTrwg6qpB44
+DELETE  http://localhost:3003/posts/5f982a14-cad3-4682-8c60-5cdc8b587a83
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InUwMDEiLCJuYW1lIjoicnVhbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5MjkyMTQ0OSwiZXhwIjoxNjkzNTI2MjQ5fQ.3ZI9Vb3OSDUYCugwcHbyVWvxLYvxBHkYAb5VqajgvSA

@@ -1,4 +1,4 @@
-import { LikesDislikesDB } from "../models/LikesDislikes";
+/* import { LikesDislikesDB } from "../models/LikesDislikes";
 import { BaseDatabase } from "./BaseDatabase";
 
 export class LikesDislikesDatabase extends BaseDatabase {
@@ -24,3 +24,4 @@ export class LikesDislikesDatabase extends BaseDatabase {
     return usersDB;
   }
 }
+ */

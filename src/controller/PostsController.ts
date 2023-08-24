@@ -6,6 +6,7 @@ import { ZodError } from "zod";
 import { CreatePostSchema } from "../dtos/posts/createPost.dto";
 import { EditPostSchema } from "../dtos/posts/editPost.dto";
 import { DeletePostSchema } from "../dtos/posts/deletePost.dto";
+import { EditikeDislikesSchema } from "../dtos/likesDislikes/updateLikeDislike.dto";
 
 export class PostsController {
   constructor(private postsBusiness: PostsBusiness) {}
@@ -64,6 +65,30 @@ export class PostsController {
       });
 
       const output = await this.postsBusiness.editPost(input);
+
+      res.status(200).send(output);
+    } catch (error) {
+      console.log(error);
+
+      if (error instanceof ZodError) {
+        res.status(400).send(error.issues);
+      } else if (error instanceof BaseError) {
+        res.status(error.statusCode).send(error.message);
+      } else {
+        res.status(500).send("Erro inesperado");
+      }
+    }
+  };
+
+  public editLikeDislike = async (req: Request, res: Response) => {
+    try {
+      const input = EditikeDislikesSchema.parse({
+        like: req.body.like,
+        idtoEdit: req.params.id,
+        token: req.headers.authorization
+      });
+
+      const output = await this.postsBusiness.editLikeDislike(input);
 
       res.status(200).send(output);
     } catch (error) {

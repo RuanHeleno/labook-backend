@@ -1,5 +1,6 @@
 import { PostsDatabase } from "../database/PostsDatabase";
 import { UserDatabase } from "../database/UserDatabase";
+import { EditikeDislikesInputDTO, EditikeDislikestOutputDTO } from "../dtos/likesDislikes/updateLikeDislike.dto";
 import {
   CreatePostInputDTO,
   CreatePostOutputDTO,
@@ -18,6 +19,7 @@ import {
 } from "../dtos/posts/getPosts.dto";
 import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
+import { LikesDislikes } from "../models/LikesDislikes";
 import { Posts } from "../models/Posts";
 import { USER_ROLES } from "../models/User";
 import { IdGenerator } from "../services/IdGenerator";
@@ -78,6 +80,17 @@ export class PostsBusiness {
     const output: CreatePostOutputDTO = {
       content,
     };
+
+    const like = null;
+
+    const newLikeDislike = new LikesDislikes(
+      id,
+      payload.id,
+      like
+    );
+
+    const newLikeDislikeDB = newLikeDislike.toDBModel();
+    await this.postsDatabase.insertLikeDislike(newLikeDislikeDB);
 
     return output;
   };
@@ -191,6 +204,42 @@ export class PostsBusiness {
 
     const output: EditPostOutputDTO = {
       content,
+    };
+
+    return output;
+  };
+
+  public editLikeDislike= async (
+    input: EditikeDislikesInputDTO
+  ): Promise<EditikeDislikestOutputDTO> => {
+    const { likes, idToEdit, token } = input;
+
+    const postDB = await this.postsDatabase.findLikeDislikeByPostId(idToEdit);
+
+    if (!postDB) {
+      throw new NotFoundError("Post não encontrando.");
+    }
+
+    const payload = this.tokenManager.getPayload(token);
+
+    if (!payload) {
+      throw new BadRequestError("Token inválido");
+    }
+
+    const likesToDB = likes ? 1 : 0;
+
+    const editLike = new LikesDislikes(
+      postDB.post_id,
+      postDB.user_id,
+      likesToDB
+    );
+
+    const editLikeDB = editLike.toDBModel();
+
+    await this.postsDatabase.updateLikeDislike(editLikeDB, idToEdit);
+
+    const output: EditikeDislikestOutputDTO = {
+      like: likes,
     };
 
     return output;
