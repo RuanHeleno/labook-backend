@@ -1,6 +1,9 @@
 import { PostsDatabase } from "../database/PostsDatabase";
 import { UserDatabase } from "../database/UserDatabase";
-import { EditikeDislikesInputDTO, EditikeDislikestOutputDTO } from "../dtos/likesDislikes/updateLikeDislike.dto";
+import {
+  LikeDislikesInputDTO,
+  LikeDislikestOutputDTO,
+} from "../dtos/likesDislikes/updateLikeDislike.dto";
 import {
   CreatePostInputDTO,
   CreatePostOutputDTO,
@@ -19,11 +22,11 @@ import {
 } from "../dtos/posts/getPosts.dto";
 import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
-import { LikesDislikes } from "../models/LikesDislikes";
-import { Posts } from "../models/Posts";
+import { LikesDislikes, LikesDislikesDB } from "../models/LikesDislikes";
+import { POST_LIKE, Posts } from "../models/Posts";
 import { USER_ROLES } from "../models/User";
 import { IdGenerator } from "../services/IdGenerator";
-import { TokenManager, TokenPayload } from "../services/TokenManager";
+import { TokenManager } from "../services/TokenManager";
 
 export class PostsBusiness {
   constructor(
@@ -83,11 +86,7 @@ export class PostsBusiness {
 
     const like = null;
 
-    const newLikeDislike = new LikesDislikes(
-      id,
-      payload.id,
-      like
-    );
+    const newLikeDislike = new LikesDislikes(id, payload.id, like);
 
     const newLikeDislikeDB = newLikeDislike.toDBModel();
     await this.postsDatabase.insertLikeDislike(newLikeDislikeDB);
@@ -164,7 +163,7 @@ export class PostsBusiness {
     const postDB = await this.postsDatabase.findPostById(idToEdit);
 
     if (!postDB) {
-      throw new NotFoundError("Post não encontrando.");
+      throw new NotFoundError("Post não encontrado.");
     }
 
     const payload = this.tokenManager.getPayload(token);
@@ -209,38 +208,75 @@ export class PostsBusiness {
     return output;
   };
 
-  public editLikeDislike= async (
-    input: EditikeDislikesInputDTO
-  ): Promise<EditikeDislikestOutputDTO> => {
-    const { likes, idToEdit, token } = input;
+  public LikeDislike = async (
+    input: LikeDislikesInputDTO
+  ): Promise<LikeDislikestOutputDTO> => {
+    const { id, token, like } = input;
 
-    const postDB = await this.postsDatabase.findLikeDislikeByPostId(idToEdit);
+    const payLoad = this.tokenManager.getPayload(token);
+
+    if (!payLoad) {
+      throw new BadRequestError('"Token" inválido');
+    }
+    const postDB = await this.postsDatabase.findPostById(id);
 
     if (!postDB) {
-      throw new NotFoundError("Post não encontrando.");
+      throw new NotFoundError("Post não encontrado");
     }
 
-    const payload = this.tokenManager.getPayload(token);
-
-    if (!payload) {
-      throw new BadRequestError("Token inválido");
+    if(payLoad.id === postDB.creator_id) {
+      throw new NotFoundError("Você não pode curtir/descurtir seu próprio Post");
     }
 
-    const likesToDB = likes ? 1 : 0;
-
-    const editLike = new LikesDislikes(
-      postDB.post_id,
-      postDB.user_id,
-      likesToDB
+    const post = new Posts(
+      postDB.id,
+      postDB.creator_id,
+      postDB.content,
+      postDB.likes,
+      postDB.dislikes,
+      postDB.created_at,
+      postDB.updated_at
     );
 
-    const editLikeDB = editLike.toDBModel();
+    const likeSQlite = like ? 1 : 0;
 
-    await this.postsDatabase.updateLikeDislike(editLikeDB, idToEdit);
-
-    const output: EditikeDislikestOutputDTO = {
-      like: likes,
+    const likeDislikeDB: LikesDislikesDB = {
+      user_id: payLoad.id,
+      post_id: id,
+      like: likeSQlite,
     };
+
+    const likeDislikeExists = await this.postsDatabase.findLikeDislike(
+      likeDislikeDB
+    );
+
+    if (likeDislikeExists === POST_LIKE.ALREADY_LIKED) {
+      if (like) {
+        await this.postsDatabase.removeLikeDislike(likeDislikeDB);
+        post.removeLike();
+      } else {
+        await this.postsDatabase.updateLikeDislike(likeDislikeDB);
+        post.removeLike();
+        post.addDislike();
+      }
+    } else if (likeDislikeExists === POST_LIKE.ALREADY_DISLIKED) {
+      if (like === false) {
+        await this.postsDatabase.removeLikeDislike(likeDislikeDB);
+        post.removeDislike();
+      } else {
+        await this.postsDatabase.updateLikeDislike(likeDislikeDB);
+        post.removeDislike();
+        post.addLike();
+      }
+    } else {
+      await this.postsDatabase.insertLikeDislike(likeDislikeDB);
+      like ? post.addLike() : post.addDislike();
+    }
+
+    const updatedPostDB = post.toDBModel();
+    await this.postsDatabase.updatePost(updatedPostDB, id);
+
+    const output: LikeDislikestOutputDTO = undefined;
 
     return output;
   };

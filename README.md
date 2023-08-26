@@ -10,12 +10,11 @@
   - [Get all Users](#get-all-users)
   - [Edit User By Email](#edit-user-by-email)
   - [Delete User By Email](#delete-user-by-email)
-
   - [Create new Post](#create-new-post)
   - [Get all Posts](#get-all-posts)
   - [Edit Post By ID](#edit-post-by-id)
+  - [Edit Post Like/Dislike](#edit-post-like-dislike)
   - [Delete Post By ID](#delete-post-by-id)
-
 - [Process](#process)
   - [Built with](#built-with)
 - [Author](#author)
@@ -261,6 +260,38 @@ A API to my portfolio made based on a Social Media backend. See more below :)
 
 ---
 
+### Edit Post Like Dislike
+
+```
+// Request PUT /posts/6185caec-5808-4f1c-a503-f737f34e4307/like
+// path params = :id
+// headers.authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InUwMDEiLCJuYW1lIjoicnVhbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5Mjg3NjEyMiwiZXhwIjoxNjkzNDgwOTIyfQ.pUNmQ5jONin6-4YsYGpHmmmXd8rGwJcMrJXRnPQaOhE"
+
+// body JSON
+{
+    "like": true
+}
+
+// Response
+// status 200 OK
+```
+
+```
+// Request PUT /posts/6185caec-5808-4f1c-a503-f737f34e4307/like
+// path params = :id
+// headers.authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InUwMDEiLCJuYW1lIjoicnVhbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5Mjg3NjEyMiwiZXhwIjoxNjkzNDgwOTIyfQ.pUNmQ5jONin6-4YsYGpHmmmXd8rGwJcMrJXRnPQaOhE"
+
+// body JSON
+{
+    "like": false
+}
+
+// Response
+// status 200 OK
+```
+
+---
+
 ### Delete Post By ID
 
 ```
@@ -276,7 +307,6 @@ A API to my portfolio made based on a Social Media backend. See more below :)
 ```
 
 ---
-
 
 ## :newspaper: Process
 

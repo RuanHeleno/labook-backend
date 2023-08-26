@@ -21,8 +21,6 @@ export class UserController {
 
       res.status(200).send(output);
     } catch (error) {
-      console.log(error);
-
       if (error instanceof ZodError) {
         res.status(400).send(error.issues);
       } else if (error instanceof BaseError) {
@@ -45,8 +43,6 @@ export class UserController {
 
       res.status(201).send(output);
     } catch (error) {
-      console.log(error);
-
       if (error instanceof ZodError) {
         res.status(400).send(error.issues);
       } else if (error instanceof BaseError) {
@@ -68,8 +64,6 @@ export class UserController {
 
       res.status(200).send(output);
     } catch (error) {
-      console.log(error);
-
       if (error instanceof ZodError) {
         res.status(400).send(error.issues);
       } else if (error instanceof BaseError) {
@@ -94,8 +88,6 @@ export class UserController {
 
       res.status(200).send(output);
     } catch (error) {
-      console.log(error);
-
       if (error instanceof ZodError) {
         res.status(400).send(error.issues);
       } else if (error instanceof BaseError) {
@@ -117,8 +109,6 @@ export class UserController {
 
       res.status(200).send(output);
     } catch (error) {
-      console.log(error);
-
       if (error instanceof ZodError) {
         res.status(400).send(error.issues);
       } else if (error instanceof BaseError) {

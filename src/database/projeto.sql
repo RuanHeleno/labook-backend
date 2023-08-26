@@ -34,8 +34,8 @@ CREATE TABLE
 
 CREATE TABLE
     if NOT EXISTS likes_dislikes (
-        user_id TEXT UNIQUE NOT NULL,
-        post_id TEXT UNIQUE NOT NULL,
+        user_id TEXT NOT NULL,
+        post_id TEXT NOT NULL,
         like INTEGER,
         FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
         FOREIGN KEY (post_id) REFERENCES posts(id) ON UPDATE CASCADE ON DELETE CASCADE

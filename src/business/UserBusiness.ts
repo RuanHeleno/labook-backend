@@ -101,7 +101,7 @@ export class UserBusiness {
     const userDB = await this.userDatabase.findUserByEmail(email);
 
     if (!userDB) {
-      throw new NotFoundError("Usuário não encontrando.");
+      throw new NotFoundError("Usuário não encontrado.");
     }
 
     const isPasswordValid = await this.hashManager.compare(
@@ -152,7 +152,7 @@ export class UserBusiness {
     const userDB = await this.userDatabase.findUserByEmail(emailToEdit);
 
     if (!userDB) {
-      throw new NotFoundError("Usuário não encontrando.");
+      throw new NotFoundError("Usuário não encontrado.");
     }
 
     let hashedPassword;

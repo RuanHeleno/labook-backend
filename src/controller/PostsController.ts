@@ -6,7 +6,7 @@ import { ZodError } from "zod";
 import { CreatePostSchema } from "../dtos/posts/createPost.dto";
 import { EditPostSchema } from "../dtos/posts/editPost.dto";
 import { DeletePostSchema } from "../dtos/posts/deletePost.dto";
-import { EditikeDislikesSchema } from "../dtos/likesDislikes/updateLikeDislike.dto";
+import { LikeDislikesSchema } from "../dtos/likesDislikes/updateLikeDislike.dto";
 
 export class PostsController {
   constructor(private postsBusiness: PostsBusiness) {}
@@ -15,15 +15,13 @@ export class PostsController {
     try {
       const input = CreatePostSchema.parse({
         token: req.headers.authorization,
-        content: req.body.content
+        content: req.body.content,
       });
 
       const output = await this.postsBusiness.createPost(input);
 
       res.status(201).send(output);
     } catch (error) {
-      console.log(error);
-
       if (error instanceof ZodError) {
         res.status(400).send(error.issues);
       } else if (error instanceof BaseError) {
@@ -37,15 +35,13 @@ export class PostsController {
   public getPosts = async (req: Request, res: Response) => {
     try {
       const input = GetPostsSchema.parse({
-        token: req.headers.authorization
+        token: req.headers.authorization,
       });
 
       const output = await this.postsBusiness.getPosts(input);
 
       res.status(200).send(output);
     } catch (error) {
-      console.log(error);
-
       if (error instanceof ZodError) {
         res.status(400).send(error.issues);
       } else if (error instanceof BaseError) {
@@ -61,15 +57,13 @@ export class PostsController {
       const input = EditPostSchema.parse({
         token: req.headers.authorization,
         idToEdit: req.params.id,
-        content: req.body.content
+        content: req.body.content,
       });
 
       const output = await this.postsBusiness.editPost(input);
 
       res.status(200).send(output);
     } catch (error) {
-      console.log(error);
-
       if (error instanceof ZodError) {
         res.status(400).send(error.issues);
       } else if (error instanceof BaseError) {
@@ -80,20 +74,18 @@ export class PostsController {
     }
   };
 
-  public editLikeDislike = async (req: Request, res: Response) => {
+  public LikeDislike = async (req: Request, res: Response) => {
     try {
-      const input = EditikeDislikesSchema.parse({
+      const input = LikeDislikesSchema.parse({
         like: req.body.like,
-        idtoEdit: req.params.id,
-        token: req.headers.authorization
+        id: req.params.id,
+        token: req.headers.authorization,
       });
 
-      const output = await this.postsBusiness.editLikeDislike(input);
+      const output = await this.postsBusiness.LikeDislike(input);
 
       res.status(200).send(output);
     } catch (error) {
-      console.log(error);
-
       if (error instanceof ZodError) {
         res.status(400).send(error.issues);
       } else if (error instanceof BaseError) {
@@ -108,15 +100,13 @@ export class PostsController {
     try {
       const input = DeletePostSchema.parse({
         id: req.params.id,
-        token: req.headers.authorization
+        token: req.headers.authorization,
       });
 
       const output = await this.postsBusiness.deletePost(input);
 
       res.status(200).send(output);
     } catch (error) {
-      console.log(error);
-
       if (error instanceof ZodError) {
         res.status(400).send(error.issues);
       } else if (error instanceof BaseError) {

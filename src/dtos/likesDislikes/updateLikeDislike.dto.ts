@@ -1,19 +1,17 @@
 import z from "zod";
 
-export interface EditikeDislikesInputDTO {
-  likes: boolean;
-  idToEdit: string;
+export interface LikeDislikesInputDTO {
+  like: boolean;
+  id: string;
   token: string;
 }
 
-export interface EditikeDislikestOutputDTO {
-  like: boolean;
-}
+export type LikeDislikestOutputDTO = undefined;
 
-export const EditikeDislikesSchema = z
+export const LikeDislikesSchema = z
   .object({
-    likes: z.boolean(),
-    idToEdit: z.string().min(1),
+    like: z.boolean(),
+    id: z.string().min(1),
     token: z.string().min(1)
   })
-  .transform((data) => data as EditikeDislikesInputDTO);
+  .transform((data) => data as LikeDislikesInputDTO);
